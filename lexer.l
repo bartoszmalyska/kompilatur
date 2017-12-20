@@ -25,7 +25,6 @@
 [*] { if(!comment) return MULT; }
 [/] { if(!comment) return DIV; }
 [%] { if(!comment) return MOD; }
-[;] { if(!comment) return SEMIC; }
 [!=] { if(!comment) return DIFF; }
 [=] { if(!comment) return EQ; }
 [<=] { if(!comment) return LE; }
