@@ -7,6 +7,12 @@
 
              using namespace std;
 
+             stuct variable
+             {
+                          string name;
+                          long long index;
+             }
+
              void acc(string s);
 	void get();
 	void put();
@@ -38,6 +44,7 @@
              void gt(string a, string b);
              void le(string a, string b);
              void ge(string a, string b);
+             bool isNumber(const &string)
 
 %}
 //C and parser declarations
@@ -54,9 +61,9 @@
 %token TAB
 
 vector<variable> var;
-vector<string> reg;
+vector<string> mem;
 vector<string> com;
-string acc = "-1";
+string reg = "-1";
 long long k = 0;
 
 %%
@@ -245,23 +252,192 @@ void halt()
 
 void add(string a, string b)
 {
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = stoll(a);
+                          long long y = stoll(b);
+                          if(x>y)
+                          {
+                                       int i=0;
+                                       //loadToReg(a); do poprawy
+                                       while(i<y)
+                                       {
+                                                    inc();
+                                                    i++;
+                                       }
+                          }
+                          else
+                          {
+                                       int i=0;
+                                       //loadToReg(b); do poprawy
+                                       while(i<x)
+                                       {
+                                                    inc();
+                                                    i++;
+                                       }
 
+                          }
+                          //dokończyć
+             }
+             else if(isNumber(a))
+             {
+                          long long x = stoll(a);
+                          int index = findVar(b);
+                          loadToReg(index);
+                          long long y = stoll(reg);
+
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          int index = findVar(a);
+                          loadToReg(index);
+                          long long x = stoll(reg);
+                          long long y = stoll(b);
+                          //operacje
+             }
+             else
+             {
+
+             }
 }
 void subt(string a, string b)
 {
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          if(x>y)
+                          {
+                                       int i=0;
+                                       //loadToReg(a); do poprawy
+                                       while(i<y)
+                                       {
+                                                    dec();
+                                                    i++;
+                                       }
+                          }
+                          else
+                          {
+                                       int i=0;
+                                       //loadToReg(b); do poprawy
+                                       while(i<x)
+                                       {
+                                                    dec();
+                                                    i++;
+                                       }
 
+                          }
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
 }
 void mult(string a, string b)
 {
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
 
+             }
 }
 void div(string a, string b)
 {
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
 
+             }
 }
 void mod(string a, string b)
 {
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
 
+             }
 }
 
 /// dodatkowe funkcje
+
+bool isNumber(const string& s)
+{
+    string::const_iterator it = s.begin();
+    while (it != s.end() && isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
+void loadToReg(int i)
+{
+             load(i);
+             reg = mem[i];
+             //dla tablicy
+             //poprawność
+}
+void stroreInMem(int i)
+{
+             store(i);
+             if(mem[i]!=null)
+                          mem[i]=reg;
+             else
+                          mem.push_back(reg);
+             //dla tablicy
+             //poprawność
+}
+int findVar(string name){
+	int n = variables.size();
+	for(int i = 0; i < n; i++){
+		if(variables[i].name == name)
+			return i;
+	}
+	return -1;
+}
