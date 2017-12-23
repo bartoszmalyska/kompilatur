@@ -44,7 +44,14 @@
              void gt(string a, string b);
              void le(string a, string b);
              void ge(string a, string b);
-             bool isNumber(const &string)
+             void assign(string a);
+
+             bool isNumber(const &string);
+             int findVar(string a);
+             void loadToReg(int i);
+             void storeInMem(int i);
+             void flush();
+
 
 %}
 //C and parser declarations
@@ -63,15 +70,39 @@
 vector<variable> var;
 vector<string> mem;
 vector<string> com;
+stack<int> jumpJ;
+stack<int> expB;
+stack<int> elseB;
 string reg = "-1";
 long long k = 0;
+long long pi=0;
 
 %%
 //Grammar rules and actions
-program : VAR vdeclarations BEGIN commands END {/*wypisz*/ halt();}
+program : VAR vdeclarations BEGIN commands END {flush(); halt();}
 
-vdeclarations:  vdeclarations ID
+vdeclarations:  vdeclarations ID /*?*/
+{
+             if(findVar($2)==-1)
+             {
+                          variable var;
+                          var.name = $2;
+                          var.index=pi;
+                          pi++;
+                          //dalej inicjacja o ile trzeba
+             }
+             else
+             {
+                          cout<<"Error, second declaration of a variable "<< $2<<endl;
+                          return 0;
+             }
+}
+;
 | vdeclarations ID[NUM]
+{
+             //jeśli mamy taką talbicę to jebać
+             //jak nie mamy to inicjujemy
+}
 |
 ;
 
@@ -79,14 +110,19 @@ commands : /* empty */
 | commands command
 ;
 
-command: identifier ASSIGN expression;
+command: ID ASSIGN expression {assign($1)};
 | IF condition THEN commands ELSE commands ENDIF
 | IF condition THEN commands ENDIF
-| WHILE condition DO commands ENDWHILE
+| WHILE condition DO commands {
+             //początek
+             //jzero
+             //robimy
+             //jump początek
+} ENDWHILE
 | FOR ID FROM value TO value DO commands ENDFOR
 | FOR ID FROM value DOWNTO value DO commands ENDFOR
-| READ identifier;
-| WRITE value;//komendy
+| READ ID {read($2)};
+| WRITE value {write($2)};//komendy
 ;
 
 expression: value {/*val*/}
@@ -105,13 +141,19 @@ condition: value EQ value {eq($1,$3);}
 | value GE value {ge($1,$3);}
 ;
 
-value: NUM {}
-| identifier {/*sprawdzanko*/}
+value: NUM {/*lecimy z tematem*/}
+| identifier
 ;
 
-identifier: ID
-| ID[ID]
-| ID[NUM]
+identifier: ID {
+             //jak jest taki to lecimy, jak nie to błąd
+}
+| ID[ID] {
+             //jak jest taka tablica i taki id to lecimy, chyba że id ma wartość większą niż długość tablicy
+}
+| ID[NUM] {
+             //sprawdzamy czy jest taka tablica i jak długosć jest mniejsza niż num to lecim
+}
 ;
 
 %%
@@ -406,6 +448,189 @@ void mod(string a, string b)
 
              }
 }
+void eq(string a, string b)
+{
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
+             //load(a)
+             //store(a)
+             //load(b)
+             //sub(a)
+             //skok
+}
+void diff(string a, string b)
+{
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
+             //load(a)
+             //store(a)
+             //load(b)
+             //sub(a)
+             //skok
+}
+void lt(string a, string b)
+{
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
+             //load(a)
+             //store(a)
+             //load(b)
+             //sub(a)
+             //skok
+}
+void gt(string a, string b)
+{
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
+             //load(a)
+             //store(a)
+             //load(b)
+             //sub(a)
+             //skok
+}
+void le(string a, string b)
+{
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
+             //load(a)
+             //store(a)
+             //load(b)
+             //sub(a)
+             //skok
+}
+void ge(string a, string b)
+{
+             if(isNumber(a) && isNumber(b))
+             {
+                          long long x = std::stoll(a);
+                          long long y = std::stoll(b);
+                          //operacje
+             }
+             else if(isNumber(a))
+             {
+                          //operacje
+             }
+             else if(isNumber(b))
+             {
+                          //operacje
+             }
+             else
+             {
+
+             }
+             //load(a)
+             //store(a)
+             //load(b)
+             //sub(a)
+             //skok
+}
+void assign(string a)
+{
+             if(findVar(a)==-1)
+             {
+                          cout<<"Error, cannot assign value to uninitialised variable"<<endl;
+                          return 0;
+             }
+             else
+             {
+
+             }
+             //przypisywanko
+}
+void read(string id)
+{
+             get();
+             //index i przechowywanie w pamięci
+             int index =  findVar(id);
+             storeInMem(index);
+}
+void write(string id)
+{
+             put();
+             //index i ładowanie do rejestru
+             sint index =  findVar(id);
+             loadToReg(index);
+}
 
 /// dodatkowe funkcje
 
@@ -423,7 +648,7 @@ void loadToReg(int i)
              //dla tablicy
              //poprawność
 }
-void stroreInMem(int i)
+void storeInMem(int i)
 {
              store(i);
              if(mem[i]!=null)
@@ -440,4 +665,8 @@ int findVar(string name){
 			return i;
 	}
 	return -1;
+}
+void flush(){
+	for (int i = 0; i < com.size(); i++)
+		cout << com[i] << endl;
 }
